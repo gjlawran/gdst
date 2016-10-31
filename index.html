@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GDST MODAL ORDER WINDOW - MOW</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+    .input {
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    padding: 10px;
+}
+
+.input:hover .tooltip {
+    background: blue;
+    border-radius: 3px;
+    bottom: -60px;
+    color: white;
+    display: inline;
+    height: 30px;
+    left: 0;
+    line-height: 30px;
+    position: absolute;
+}
+
+.input:hover .tooltip:before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: -5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid blue;
+}
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron">
+                    <h2>Geographic Data Selection Tool</h2>
+                    <p>
+                        Panning and zooming this map, or entering a list of mapsheet numbers, will define the geographic area for download.
+                    </p>
+                    <p>Due to its size, this dataset cannot be selected and extracted at the provincial extent.
+                      Please check the <a href="https://catalogue.data.gov.bc.ca/dataset/2ebb35d8-c82f-4a17-9c96-612ac3532d55">catalogue record</a> for an alternative provincial resource.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <img alt="MapforSelection" src="AreaSelector.PNG">
+          </div>
+          <div class="col-md-6">
+            <form>
+
+                  <label for="epsg">
+                      Select map projection - default is BC Albers:
+                    </label>
+                  <p>
+                  				<select name="EPSG">
+                  					<option value="" disabled selected >select a map projection</option>
+                  					<option value="1" >EPSG - UTM 7 </a></option>
+                  					<option value="2" >BC ALBERS</option>
+                  					<option value="3" >GEOGRAPHIC</option>
+                  				</select>
+                  			</p>
+
+                        <div class="checkbox">
+                          <p>
+        						              <input type="checkbox">
+        					                     I consent to the collection of my email address as per the terms.
+                                 </div>
+                          <div>
+                          <label for="email-ofi">
+                                  e-mail address:
+        						              <input type="email" class="form-control" id="email1" autocomplete="off">
+        					                </label>
+                          </div>
+                        </p>
+                        <p>
+                            <a class="btn btn-primary btn-large" href="#">Place order</a>
+                        </p>
+                        <label for="mapsheets">
+                            Mapsheets to download:
+                          </label>
+                          <div class ="input">
+                          <p><textarea rows="4" cols="50" name="mapsheets" placeholder="104E050,093D030,093C031,..." form="areaselect"></textarea></p>
+                          <span class="tooltip">Leave this blank to select the area by panning and zooming.</span>
+                        </div>
+
+            </form>
+
+
+          </div>
+          </div>
+
+          <div class="row">
+              </div>
+        </div>
+
+        </form>
+    </div>
+    </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+    <script>
+    //http://jsfiddle.net/ageara/knogpp93/6/
+    </script>
+</body>
+
+</html>
