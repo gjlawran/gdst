@@ -13,8 +13,16 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="lib/leaflet/0.7.7/leaflet.css" rel="stylesheet">
+    <link href="lib/leaflet.draw/0.4.0/dist/leaflet.draw.css" rel="stylesheet">
 
-
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="lib/leaflet/0.7.7/leaflet.js"></script>
+    <script src="lib/leaflet.draw/0.4.0/dist/leaflet.draw.js"></script>
+    <script src="lib/proj4/proj4-compressed.js"></script>
+    <script src="lib/proj4leaflet/proj4leaflet.js"></script>
 
 
 </head>
@@ -40,9 +48,71 @@
             </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
-            <img alt="MapforSelection" src="AreaSelector.PNG">
+          <div class="col-md-6" id="map" style="height:600px">
           </div>
+          <script>
+
+            var crs = new L.Proj.CRS('EPSG:3005',
+                '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs',
+                {
+                  resolutions: [
+                    9783.9400003175, 4891.969998835831, 2445.9849999470835, 1222.9925001058336, 611.4962500529168, 305.74812489416644, 152.8740625, 76.4370312632292, 38.2185156316146, 19.10925781316146, 9.554628905257811, 4.7773144526289055, 2.3886572265790367, 1.1943286131572264
+                  ],
+                  origin: [-1.32393E7, 1.98685E7]
+                })
+
+
+              //this layer's tiles are not aligned with the other bcgov layer (bcgovRoadsLayer)
+              var bcgovBaseLayer =  
+                L.tileLayer(
+                    'http://maps.gov.bc.ca/arcserver/rest/services/Province/albers_cache/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: '&copy; Government of British Columbia, GeoBC, Heritage Branch, DataBC',
+                    zoomOffset: 0,
+                    maxZoom: 11,
+                    minZoom: 0,
+                    continuousWorld: true,
+                    bounds: L.latLngBounds(L.latLng(48,-140), L.latLng(62,-108))
+                    });
+
+              var initialCenterLatLon = [53.5, -128];
+              var initialZoom = 2;
+
+
+              var viewChanged = function(e) {
+                var maxArea = 5000000;
+                var bounds = map.getBounds();
+                var latLonList = [bounds.getSouthWest(), bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest()]
+                var areaM2 = L.GeometryUtil.geodesicArea(latLonList)
+                var areaHect = Math.round(areaM2 * 0.0001);
+
+                $('#selected-area').html(areaHect+" hectares")
+
+                if (areaHect < maxArea) {
+                  $('#order-btn').removeClass("disabled")
+                  $('#area-warning-text').html("");
+                  $('#area-warning').hide();
+                }
+                else {
+                  $('#order-btn').addClass("disabled")
+                  $('#area-warning-text').html("Please select an area < "+maxArea+" hectares");
+                  $('#area-warning').show();
+                }
+
+              }
+              var map = L.map('map', {
+                  center: initialCenterLatLon,
+                  zoom: initialZoom,
+                  crs: crs,
+                  layers: [bcgovBaseLayer]
+              }) 
+              
+              map.on("zoomend", viewChanged)
+              map.on("moveend", viewChanged)
+              
+              map.setView(initialCenterLatLon, initialZoom)
+
+
+          </script>
           <div class="col-md-6">
             <form>
 
@@ -81,8 +151,14 @@
                           </div>
                         </p>
                         <!-- TODO Grey this button out until the area goes below maxArea -->
+                        <label>Selected map area: </label><span id="selected-area"></span>
+
+                        <div id="area-warning" class="alert alert-warning">
+                          <span id="area-warning-text"></span>
+                        </div>
+
                         <p>
-                            <a class="btn btn-primary btn-large" href="#">Place order</a>
+                            <a id="order-btn" class="btn btn-primary btn-large" href="#">Place order</a>
                         </p>
 
 
@@ -100,17 +176,8 @@
     </div>
     </div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-    <script>
-    //http://jsfiddle.net/ageara/knogpp93/6/
 
-    def myFunction(){
-  document.getElementById("where").innerHTML = "New text!";
-  }
-    </script>
+
 </body>
 
 </html>
