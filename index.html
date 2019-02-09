@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>GDST MODAL ORDER WINDOW - MOW</title>
+    <title>GDST MODAL ORDER WINDOW - MOW </title>
 
     <meta name="description" content="">
     <meta name="author" content="LayoutIt!">
@@ -52,7 +52,7 @@
           </div>
           <script>
 
-              var bcgovRoadsLayer =  
+              var bcgovRoadsLayer =
                 L.tileLayer(
                     'http://maps.gov.bc.ca/arcserver/rest/services/province/roads_wm/MapServer/tile/{z}/{y}/{x}', {
                     attribution: '&copy; Government of British Columbia, DataBC, GeoBC ',
@@ -89,11 +89,11 @@
                   center: initialCenterLatLon,
                   zoom: initialZoom,
                   layers: [bcgovRoadsLayer]
-              }) 
-              
+              })
+
               map.on("zoomend", viewChanged)
               map.on("moveend", viewChanged)
-              
+
               map.setView(initialCenterLatLon, initialZoom)
 
 
